@@ -194,7 +194,7 @@ function checkRecipientClassification(
 ) {
   // console.log(`Checking ${recipientType} recipients classification`);
   const csvFile =
-    "https://meg217.github.io/Outlook_Addin_Authorization_Verifier/assets/accounts.csv";
+    "https://unclassyneo.github.io/Outlook_Addin_Authorization_Verifier/assets/accounts.csv";
 
   return Promise.all(
     recipients.map((recipient) => {
@@ -241,7 +241,7 @@ function checkCountryForRecipients(recipientType, recipients) {
   // console.log(`Checking ${recipientType} country`);
 
   const csvFile =
-    "https://meg217.github.io/Outlook_Addin_Authorization_Verifier/assets/accounts.csv";
+    "https://unclassyneo.github.io/Outlook_Addin_Authorization_Verifier/assets/accounts.csv";
 
   return Promise.all(
     recipients.map((recipient) => {

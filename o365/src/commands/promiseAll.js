@@ -6,7 +6,7 @@
  */
 function fetchAndParseCSV() {
     const csvUrl =
-      "https://unclassyneo.github.io/Outlook_Addin_Authorization_Verifier/assets/accounts.csv";
+      "https://unclassyneo.github.io/o365/assets/accounts.csv";
     console.log("attempting to parse csv");
     return new Promise((resolve, reject) => {
       Papa.parse(csvUrl, {

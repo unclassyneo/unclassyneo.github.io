@@ -47,7 +47,24 @@
             document.getElementById("helloButton").onclick = sayHello;
         }
     });
+	
+	function getBody() {
+        var _item = Office.context.mailbox.item;
+        var body = _item.body;
 
+        // Get the body asynchronous as text
+        body.getAsync(Office.CoercionType.Html, function (asyncResult) {
+            if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
+                // TODO: Handle error
+            }
+            else {
+                // Show data
+
+                console.log('Body', asyncResult.value.trim());
+            }
+        });
+    }
+	
     /**
      * Writes 'Hello world!' to a new message body.
      */
@@ -74,7 +91,7 @@
 			classification += "//NOFORN"
 		}
 		var bannerMarking = "CLASSIFICATION: " + classification;
-		var messageBody = Office.context.mailbox.item.body;
+		var messageBody = Office.context.mailbox.item.body.text;
 		var newMessageBody = bannerMarking + '\n' + messageBody + '\n' + bannerMarking
         Office.context.mailbox.item.body.setAsync(
             newMessageBody,

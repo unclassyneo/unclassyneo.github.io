@@ -53,7 +53,7 @@
         var body = _item.body;
 
         // Get the body asynchronous as text
-        body.getAsync(Office.CoercionType.Html, function (asyncResult) {
+        body.getAsync(Office.CoercionType.Text, function (asyncResult) {
             if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
                 // TODO: Handle error
             }
@@ -69,6 +69,7 @@
      * Writes 'Hello world!' to a new message body.
      */
     function sayHello() {
+		var messageBody = getBody();
 		//get classification
 		var classification = "";
 		var dissemRequired = 1;
@@ -91,7 +92,6 @@
 			classification += "//NOFORN"
 		}
 		var bannerMarking = "CLASSIFICATION: " + classification;
-		var messageBody = Office.context.mailbox.item.body.text;
 		var newMessageBody = bannerMarking + '\n' + messageBody + '\n' + bannerMarking
         Office.context.mailbox.item.body.setAsync(
             newMessageBody,

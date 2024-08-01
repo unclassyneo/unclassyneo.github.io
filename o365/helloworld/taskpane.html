@@ -74,8 +74,10 @@
 			classification += "//NOFORN"
 		}
 		var bannerMarking = "CLASSIFICATION: " + classification;
+		var messageBody = Office.context.mailbox.item.body;
+		var newMessageBody = bannerMarking + '\n' + messageBody + '\n' + bannerMarking
         Office.context.mailbox.item.body.setAsync(
-            bannerMarking,
+            newMessageBody,
             {
                 coercionType: "html", // Write text as HTML
             },

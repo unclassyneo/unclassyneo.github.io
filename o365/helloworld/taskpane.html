@@ -53,14 +53,15 @@
         var body = _item.body;
 
         // Get the body asynchronous as text
-        body.getAsync(Office.CoercionType.Text, function (asyncResult) {
+        body.getAsync(Office.CoercionType.Html, function (asyncResult) {
             if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
                 // TODO: Handle error
             }
             else {
                 // Show data
-
-                console.log('Body', asyncResult.value.trim());
+				var result = asyncResult.value.trim()
+                console.log('Body', result);
+				return result;
             }
         });
     }
@@ -69,14 +70,14 @@
      * Writes 'Hello world!' to a new message body.
      */
     function sayHello() {
-		var messageBody = getBody();
+		var messageBody = getBody() + ".";
 		//get classification
 		var classification = "";
 		var dissemRequired = 1;
 		classifciationSelector = document.getElementById("classificationSelector");
 		//var value = classifciationSelector.value;
 		var classification = classifciationSelector.options[classifciationSelector.selectedIndex].text;
-		if(classification == "unclassified"){
+		if(classification == "UNCLASSIFIED"){
 			dissemRequired = 0;
 		}
 		var sciSelector = document.getElementById("sciSelector");

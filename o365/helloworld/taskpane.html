@@ -70,7 +70,8 @@
      * Writes 'Hello world!' to a new message body.
      */
     function sayHello() {
-		var messageBody = getBody() + ".";
+		//var messageBody = Office.context.mailbox.item.body.getBody() + ".";
+		var messageBody = Office.context.mailbox.item.body.getAsync('text', function (async) {console.log(async.value)})+ "*";
 		//get classification
 		var classification = "";
 		var dissemRequired = 1;

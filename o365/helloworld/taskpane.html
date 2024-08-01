@@ -54,12 +54,12 @@
     function sayHello() {
 		//get classification
 		var classification = "";
-		var dissemRequired = True;
+		var dissemRequired = 1;
 		classifciationSelector = document.getElementById("classificationSelector");
 		//var value = classifciationSelector.value;
 		var classification = classifciationSelector.options[classifciationSelector.selectedIndex].text;
 		if(classification == "unclassified"){
-			dissemRequired = False;
+			dissemRequired = 0;
 		}
 		var sciSelector = document.getElementById("sciSelector");
 		var sci = sciSelector.options[sciSelector.selectedIndex].text;

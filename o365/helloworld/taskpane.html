@@ -9,6 +9,13 @@
 
 <body>
     <p>This add-in will insert text in a new message.</p>
+	<label for="classification">Classification</label>
+	<select name="classification" id="classificationSelector">
+		<option value="UNCLASSIFIED">UNCLASSIFIED</option>
+		<option value="CONFIDENTIAL">CONFIDENTIAL</option>
+		<option value="SECRET">SECRET</option>
+		<option value="TOP SECRET">TOP SECRET</option>
+	</select>
     <input type="button" id="helloButton" value="classify" />
 
     <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
@@ -27,8 +34,12 @@
      * Writes 'Hello world!' to a new message body.
      */
     function sayHello() {
+		//get classification
+		var classification = "";
+		classifciation = document.getElementById("classificationSelector").value
+		var banerMarking = "CLASSIFICATION: " + classification
         Office.context.mailbox.item.body.setAsync(
-            "Hello world!",
+            bannerMarking,
             {
                 coercionType: "html", // Write text as HTML
             },

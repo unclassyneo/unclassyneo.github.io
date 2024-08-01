@@ -16,7 +16,25 @@
 		<option value="SECRET">SECRET</option>
 		<option value="TOP SECRET">TOP SECRET</option>
 	</select>
+	<br />
+	<label for="sci">SCI</label>
+	<select name="sci" id="sciSelector">
+		<option value="none">None</option>
+		<option value="si">SI</option>
+		<option value="tk">TK</option>
+		<option value="si/tk">SI/TK</option>
+	</select>
+	<br />
+	<!--
+	<label for="classification">Dissem</label>
+	<select name="classification" id="classificationSelector">
+		<option value="UNCLASSIFIED">UNCLASSIFIED</option>
+		<option value="CONFIDENTIAL">CONFIDENTIAL</option>
+		<option value="SECRET">SECRET</option>
+		<option value="TOP SECRET">TOP SECRET</option>
+	</select>
     <input type="button" id="helloButton" value="classify" />
+	-->
 
     <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
     <!-- <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" /> -->
@@ -36,10 +54,26 @@
     function sayHello() {
 		//get classification
 		var classification = "";
+		var dissemRequired = True;
 		classifciationSelector = document.getElementById("classificationSelector");
 		//var value = classifciationSelector.value;
 		var classification = classifciationSelector.options[classifciationSelector.selectedIndex].text;
-		var bannerMarking = "CLASSIFICATION: " + classification
+		if(classification == "unclassified"){
+			dissemRequired = False;
+		}
+		var sciSelector = document.getElementById("sciSelector");
+		var sci = sciSelector.options[sciSelector.selectedIndex].text;
+		if(sci == "None"){
+			sci = "";
+		}
+		else{
+			sci = "//" + sci;
+		}
+		classification += sci;
+		if(dissemRequired){
+			classification += "//NOFORN"
+		}
+		var bannerMarking = "CLASSIFICATION: " + classification;
         Office.context.mailbox.item.body.setAsync(
             bannerMarking,
             {

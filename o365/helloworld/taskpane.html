@@ -377,11 +377,11 @@
 		if(classification == "UNCLASSIFIED"){
 			dissemRequired = 0;
 		}
-		var sciSelector = document.getElementById("sciSelector");
-		var sci = sciSelector.options[sciSelector.selectedIndex].text;
+		//var sciSelector = document.getElementById("sciSelector");
+		//var sci = sciSelector.options[sciSelector.selectedIndex].text;
 		var selectedSCIs = $("#sciSelector").val();
 		if(selectedSCIs.length > 0){
-			classification += "//";
+			classification += "/";
 			selectedSCIs.forEach((sci) => {
 				classification += "/" + sci;
 			});

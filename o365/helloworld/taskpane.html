@@ -17,7 +17,10 @@
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
-    		$('.js-example-basic-multiple').select2({
+    		$('#sciSelector').select2({
+				placeholder: 'Select an SCI'
+    		});
+    		$('#dissemSelector').select2({
 				placeholder: 'Select a dissemination'
     		});
 		});
@@ -37,11 +40,10 @@
 	<br />
 	<label for="sci">SCI</label>
 	<br />
-	<select name="sci" id="sciSelector">
-		<option value="none">None</option>
-		<option value="si">SI</option>
-		<option value="tk">TK</option>
-		<option value="si/tk">SI/TK</option>
+	<select class="js-example-basic-multiple" name="sci" id="sciSelector" multiple="multiple">
+		<option value="SI">SI</option>
+		<option value="TK">TK</option>
+		<option value="HCS">HCS</option>
 	</select>
 	<br />
 	<!--
@@ -53,6 +55,7 @@
 		<option value="TOP SECRET">TOP SECRET</option>
 	</select>
 	-->
+	
 	<select class="js-example-basic-multiple" name="states[]" multiple="multiple" id="dissemSelector">
 		<option value="AFG">AFG - Afghanistan</option>
 		<option value="XQZ">XQZ - Akrotiri</option>
@@ -376,11 +379,15 @@
 		}
 		var sciSelector = document.getElementById("sciSelector");
 		var sci = sciSelector.options[sciSelector.selectedIndex].text;
-		if(sci == "None"){
-			sci = "";
+		var selectedSCIs = $("#sciSelector").val();
+		if(selectedSCIs.length > 0){
+			classification += "//";
+			selectedSCIs.forEach((sci) => {
+				classification += "/" + sci;
+			});
 		}
-		else{
-			sci = "//" + sci;
+		else {
+			classification += "";
 		}
 		classification += sci;
 		if(dissemRequired){

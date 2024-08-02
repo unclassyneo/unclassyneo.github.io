@@ -17,7 +17,9 @@
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
-    		$('.js-example-basic-multiple').select2();
+    		$('.js-example-basic-multiple').select2({
+				placeholder: 'Select a dissemination'
+    		});
 		});
 	</script>
 </head>
@@ -51,7 +53,7 @@
 		<option value="TOP SECRET">TOP SECRET</option>
 	</select>
 	-->
-	<select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+	<select class="js-example-basic-multiple" name="states[]" multiple="multiple" id="dissemSelector">
 		<option value="AL">Alabama</option>
 		<option value="AK">Alaska</option>
 		<option value="WV">West Virginia</option>
@@ -116,7 +118,17 @@
 		}
 		classification += sci;
 		if(dissemRequired){
-			classification += "//NOFORN"
+			var dissemSelector = document.getElementById('dissemSelector');
+			var selectedDissems = $("#dissemSelector").val();
+			if(len(selectedDissems) > 0){
+				classification += "//REL TO USA";
+				selectedDissems.forEach((dissem) => {
+					classificaiton += ", " + dissem;
+				});
+			}
+			else {
+				classification += "//NOFORN";
+			}
 		}
 		var bannerMarking = "CLASSIFICATION: " + classification;
 		var newMessageBody = bannerMarking + '\n' + messageBody + '\n' + bannerMarking

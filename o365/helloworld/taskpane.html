@@ -3,8 +3,8 @@
 <html>
 
 <head>
-    <!-- Office JavaScript API -->
-    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+	<!-- Office JavaScript API -->
+	<script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -17,18 +17,18 @@
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
-    		$('#sciSelector').select2({
+			$('#sciSelector').select2({
 				placeholder: 'Select an SCI'
-    		});
-    		$('#dissemSelector').select2({
+			});
+			$('#dissemSelector').select2({
 				placeholder: 'Select a dissemination'
-    		});
+			});
 		});
 	</script>
 </head>
 
 <body>
-    <p>This add-in will insert text in a new message.</p>
+	<!--<p>This add-in will insert text in a new message.</p>-->
 	<label for="classification">Classification</label>
 	<br />
 	<select name="classification" id="classificationSelector">
@@ -327,45 +327,56 @@
 		<option value="YEM">YEM - Yemen</option>
 		<option value="ZMB">ZMB - Zambia</option>
 		<option value="ZWE">ZWE - Zimbabwe</option>
-    </select>
+	</select>
 	<br />
-    <input type="button" id="helloButton" value="classify" />
+	<input type="button" id="helloButton" value="classify" />
 
-    <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
-    <!-- <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" /> -->
+	<!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
+	<!-- <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" /> -->
 </body>
 
 <script>
-
-    Office.onReady((info) => {
-        if (info.host === Office.HostType.Outlook) {
-            document.getElementById("helloButton").onclick = sayHello;
-        }
-    });
+	Office.onReady((info) => {
+		if (info.host === Office.HostType.Outlook) {
+			document.getElementById("helloButton").onclick = sayHello;
+		}
+	});
 	
 	function getBody() {
-        var _item = Office.context.mailbox.item;
-        var body = _item.body;
-
-        // Get the body asynchronous as text
-        body.getAsync(Office.CoercionType.Html, function (asyncResult) {
-            if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
-                // TODO: Handle error
-            }
-            else {
-                // Show data
+		var _item = Office.context.mailbox.item;
+		var body = _item.body;
+		
+		// Get the body asynchronous as text
+		body.getAsync(Office.CoercionType.Html, function (asyncResult) {
+			if (asyncResult.status !== Office.AsyncResultStatus.Succeeded) {
+				// TODO: Handle error
+			}
+			else {
+				// Show data
 				var result = asyncResult.value.trim()
-                console.log('Body', result);
+				console.log('Body', result);
 				return result;
-            }
-        });
-    }
+			}
+		});
+	}
 	
     /**
      * Writes 'Hello world!' to a new message body.
      */
     function sayHello() {
 		var messageBody = Office.context.mailbox.item.body;
+		Office.context.mailbox.item.body.getAsync(
+			"text",
+			function (result) {
+				if(result.status === Office.AsyncResultStatus.Succeeded) {
+					messagBody = result.value;
+				}
+				else{
+					console.log("Error fetching message body");
+					console.log(asyncResult.error.message);
+				}
+			}
+		);
 		//var messageBody = Office.context.mailbox.item.body.getAsync('text', function (async) {console.log(async.value)})+ "*";
 		messageBody = JSON.stringify(messageBody);
 		//get classification
@@ -403,22 +414,23 @@
 			}
 		}
 		var bannerMarking = "CLASSIFICATION: " + classification;
-		var newMessageBody = bannerMarking + '\n' + messageBody + '\n' + bannerMarking
-        Office.context.mailbox.item.body.setAsync(
-            newMessageBody,
-            {
-                coercionType: "html", // Write text as HTML
-            },
-
-            // Callback method to check that setAsync succeeded
-            function (asyncResult) {
-                if (asyncResult.status ==
-                    Office.AsyncResultStatus.Failed) {
-                    write(asyncResult.error.message);
-                }
-            }
-        );
-    }
+		var newMessageBody = bannerMarking + '<br />' + messageBody + '<br />' + bannerMarking
+		if(messageBody.length > 0){
+			Office.context.mailbox.item.body.setAsync(
+				newMessageBody,
+				{
+					coercionType: "html", // Write text as HTML
+				},
+				
+				// Callback method to check that setAsync succeeded
+				function (asyncResult) {
+					if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+						write(asyncResult.error.message);
+					}
+				}
+			);
+		}
+	}
 
 </script>
 

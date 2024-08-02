@@ -386,7 +386,7 @@
 		if(dissemRequired){
 			var dissemSelector = document.getElementById('dissemSelector');
 			var selectedDissems = $("#dissemSelector").val();
-			if(len(selectedDissems) > 0){
+			if(selectedDissems.length > 0){
 				classification += "//REL TO USA";
 				selectedDissems.forEach((dissem) => {
 					classificaiton += ", " + dissem;

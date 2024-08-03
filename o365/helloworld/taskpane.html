@@ -368,7 +368,7 @@
 		var messageBody = Office.context.mailbox.item.body;
 		message.body.getAsync(Office.CoercionType.Html, (bodyResult) => {
 			if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
-				messageBody = bodyResult.value;
+				messageBody = bodyResult.value.toString();
 				console.log("messageBody = "+messageBody);
 			}
 			else{

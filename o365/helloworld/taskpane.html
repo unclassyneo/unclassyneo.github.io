@@ -370,6 +370,7 @@
 			function (result) {
 				if(result.status === Office.AsyncResultStatus.Succeeded) {
 					messagBody = result.value;
+					console.log("Message body = " + messageBody);
 				}
 				else{
 					console.log("Error fetching message body");

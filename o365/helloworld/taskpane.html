@@ -14,6 +14,12 @@
 		body {
 			font-family: arial;
 		}
+		.unclassified {
+			color: green;
+		}
+		.confidential, .secret, .top-secret {
+			color: red;
+		}
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -371,7 +377,10 @@
 				window.messageBody = bodyResult.value.toString();
 				console.log("messageBody = "+messageBody);
 				console.log("--"+bodyResult.value.toString());
+				const parser = new DOMParser();
+				const messageBodyHTML = parser.parseFromString(messageBody, "text/xml");
 				var classification = "";
+				var bannerMarking = "";
 				var dissemRequired = 1;
 				classifciationSelector = document.getElementById("classificationSelector");
 				//var value = classifciationSelector.value;
@@ -379,17 +388,18 @@
 				if(classification == "UNCLASSIFIED"){
 					dissemRequired = 0;
 				}
+				bannerMarking = classification;
 				//var sciSelector = document.getElementById("sciSelector");
 				//var sci = sciSelector.options[sciSelector.selectedIndex].text;
 				var selectedSCIs = $("#sciSelector").val();
 				if(selectedSCIs.length > 0){
-					classification += "/";
+					bannerMarking += "/";
 					selectedSCIs.forEach((sci) => {
-						classification += "/" + sci;
+						bannerMarking += "/" + sci;
 					});
 				}
 				else {
-					classification += "";
+					bannerMarking += "";
 				}
 				if(dissemRequired){
 					var dissemSelector = document.getElementById('dissemSelector');
@@ -402,17 +412,20 @@
 						else{
 							console.log("Warning: USA required for dissemination");
 						}
-						classification += "//REL TO USA";
+						bannerMarking += "//REL TO USA";
 						selectedDissems.forEach((dissem) => {
-							classification += ", " + dissem;
+							bannerMarking += ", " + dissem;
 						});
 					}
 					else {
-						classification += "//NOFORN";
+						bannerMarking += "//NOFORN";
 					}
 				}
-				var bannerMarking = "CLASSIFICATION: " + classification;
-				var newMessageBody = bannerMarking + '<br />' + messageBody + '<br />' + bannerMarking
+				var emailBannerMarking = "CLASSIFICATION: " + bannerMarking;
+				var classificationClass = classification.toLowerCase();
+				classificationClass = classificationClass.replace(' ', '-');
+				var emailBannerMarkingHTML = "<p class=\"banner-marking " + classificationClass + "\">" + bannerMarking + "</p>";
+				var newMessageBody = bannerMarkingHTML + messageBody + bannerMarkingHTML;
 				if(messageBody.length > 0){
 					Office.context.mailbox.item.body.setAsync(
 						newMessageBody,

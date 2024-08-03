@@ -425,7 +425,7 @@
 				var classificationClass = classification.toLowerCase();
 				classificationClass = classificationClass.replace(' ', '-');
 				var emailBannerMarkingHTML = "<p class=\"banner-marking " + classificationClass + "\">" + bannerMarking + "</p>";
-				var newMessageBody = bannerMarkingHTML + messageBody + bannerMarkingHTML;
+				var newMessageBody = emailBannerMarkingHTML + messageBody + emailBannerMarkingHTML;
 				if(messageBody.length > 0){
 					Office.context.mailbox.item.body.setAsync(
 						newMessageBody,

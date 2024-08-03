@@ -335,7 +335,7 @@
 	<!-- <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" /> -->
 </body>
 
-<script>
+<script type="text/javascript">
 	Office.onReady((info) => {
 		if (info.host === Office.HostType.Outlook) {
 			document.getElementById("helloButton").onclick = sayHello;
@@ -364,10 +364,17 @@
      * Writes 'Hello world!' to a new message body.
      */
     function sayHello() {
+		var message = Office.context.mailbox.item;
 		var messageBody = Office.context.mailbox.item.body;
+		message.body.getAsync(Office.CoercionType.Html, (bodyResult) => {
+			if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
+				console.log("hhh"+bodyResult.value);
+			}
+		});
 		Office.context.mailbox.item.body.getAsync(
 			"html",
 			function (result) {
+				console.log()
 				if(result.status === Office.AsyncResultStatus.Succeeded) {
 					messagBody = result.value;
 					console.log("Message body = " + messageBody);
@@ -379,6 +386,7 @@
 				}
 			}
 		);
+		console.log()
 		//var messageBody = Office.context.mailbox.item.body.getAsync('text', function (async) {console.log(async.value)})+ "*";
 		messageBody = JSON.stringify(messageBody);
 		//get classification

@@ -365,7 +365,7 @@
      */
     function sayHello() {
 		var message = Office.context.mailbox.item;
-		var messageBody = Office.context.mailbox.item.body;
+		var messageBody = "not loaded";
 		message.body.getAsync(Office.CoercionType.Html, (bodyResult) => {
 			if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
 				messageBody = bodyResult.value.toString();

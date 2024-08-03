@@ -404,14 +404,14 @@
 				if(dissemRequired){
 					var dissemSelector = document.getElementById('dissemSelector');
 					var selectedDissems = $("#dissemSelector").val();
+					var indexUSA = selectedDissems.indexOf('USA');
+					if(indexUSA > -1){
+						selectedDissems.splice(indexUSA, 1);
+					}
+					else{
+						console.log("Warning: USA required for dissem");
+					}
 					if(selectedDissems.length > 0){
-						var indexUSA = selectedDissems.indexOf('USA');
-						if(indexUSA > -1){
-							selectedDissems.splice(indexUSA, 1);
-						}
-						else{
-							console.log("Warning: USA required for dissemination");
-						}
 						bannerMarking += "//REL TO USA";
 						selectedDissems.forEach((dissem) => {
 							bannerMarking += ", " + dissem;
@@ -422,9 +422,11 @@
 					}
 				}
 				var emailBannerMarking = "CLASSIFICATION: " + bannerMarking;
-				var classificationClass = classification.toLowerCase();
-				classificationClass = classificationClass.replace(' ', '-');
-				var emailBannerMarkingHTML = "<p class=\"banner-marking " + classificationClass + "\">" + bannerMarking + "</p>";
+				var textColor = "red";
+				if(classification === "UNCLASSIFIED"){
+					textColor = "green";
+				}
+				var emailBannerMarkingHTML = "<p class=\"banner-marking\" style=\"color:" + textColor + ";\">" + bannerMarking + "</p>";
 				var newMessageBody = emailBannerMarkingHTML + messageBody + emailBannerMarkingHTML;
 				if(messageBody.length > 0){
 					Office.context.mailbox.item.body.setAsync(

@@ -365,11 +365,12 @@
      */
     function sayHello() {
 		var message = Office.context.mailbox.item;
-		var messageBody = "not loaded";
+		//var messageBody = "not loaded";
 		message.body.getAsync(Office.CoercionType.Html, (bodyResult) => {
 			if (bodyResult.status === Office.AsyncResultStatus.Succeeded) {
 				window.messageBody = bodyResult.value.toString();
 				console.log("messageBody = "+messageBody);
+				console.log("--"+bodyResult.value.toString());
 			}
 			else{
 				console.log("Error fetching message body");

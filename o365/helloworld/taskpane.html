@@ -366,7 +366,7 @@
     function sayHello() {
 		var messageBody = Office.context.mailbox.item.body;
 		Office.context.mailbox.item.body.getAsync(
-			"text",
+			"html",
 			function (result) {
 				if(result.status === Office.AsyncResultStatus.Succeeded) {
 					messagBody = result.value;
@@ -375,6 +375,7 @@
 				else{
 					console.log("Error fetching message body");
 					console.log(asyncResult.error.message);
+					console.log(JSON.stringify(result));
 				}
 			}
 		);

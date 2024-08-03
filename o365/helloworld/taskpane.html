@@ -369,6 +369,8 @@
 	function markEmail(bannerMarking){
 		var emailBannerMarking = "CLASSIFICATION: " + bannerMarking;
 		var textColor = "red";
+		var classification = bannerMarking.split('//');
+		classification = classification[0];
 		if(classification === "UNCLASSIFIED"){
 			textColor = "green";
 		}

@@ -313,7 +313,7 @@
 		<option value="UKR">UKR - Ukraine</option>
 		<option value="ARE">ARE - United Arab Emirates</option>
 		<option value="GBR">GBR - United Kingdom</option>
-		<option value="USA">USA - United States</option>
+		<option value="USA" selected>USA - United States</option>
 		<option value="URY">URY - Uruguay</option>
 		<option value="UZB">UZB - Uzbekistan</option>
 		<option value="VUT">VUT - Vanuatu</option>
@@ -395,6 +395,13 @@
 					var dissemSelector = document.getElementById('dissemSelector');
 					var selectedDissems = $("#dissemSelector").val();
 					if(selectedDissems.length > 0){
+						var indexUSA = selectedDissems.indexOf('USA');
+						if(indexUSA > -1){
+							selectedDissems.splice(indexUSA, 1);
+						}
+						else{
+							console.log("Warning: USA required for dissemination");
+						}
 						classification += "//REL TO USA";
 						selectedDissems.forEach((dissem) => {
 							classification += ", " + dissem;

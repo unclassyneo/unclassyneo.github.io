@@ -20,6 +20,15 @@
 		.confidential, .secret, .top-secret {
 			color: red;
 		}
+		input[type="button"], input[type="submit"] {
+			padding: 8px 10px;
+			border-radius: 5px;
+			border-style: solid;
+			border-color: grey;
+			border-width: 1px;
+			background-color: #ddd;
+			cursor: pointer;
+		}
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -52,7 +61,7 @@
 			
 			
 			$('#sciSelector').select2({
-				placeholder: 'Select an SCI'
+				placeholder: 'Select SCI'
 			});
 			
 			var query = {};
@@ -80,7 +89,7 @@
 			};
 			
 			$dissemSelector.select2({
-				placeholder: 'Select a dissemination',
+				placeholder: 'Select dissemination',
 				sorter: sortBySearchTerm,
 				language: {
 					searching: function (params) {
@@ -435,7 +444,7 @@
 		if(classification === "UNCLASSIFIED"){
 			textColor = "green";
 		}
-		var emailBannerMarkingHTML = "<p class=\"banner-marking\" style=\"color:" + textColor + ";\">" + bannerMarking + "</p>";
+		var emailBannerMarkingHTML = "<p class=\"banner-marking\" style=\"color:" + textColor + ";\">" + emailBannerMarking + "</p>";
 		var newMessageBody = emailBannerMarkingHTML + messageBody + emailBannerMarkingHTML;
 		if(messageBody.length > 0){
 			Office.context.mailbox.item.body.setAsync(

@@ -50,12 +50,46 @@
 				return null;
 			}
 			
+			
 			$('#sciSelector').select2({
 				placeholder: 'Select an SCI'
 			});
 			
-			$('#dissemSelector').select2({
+			var query = {};
+			$dissemSelector = $('#dissemSelector');
+			
+			function sortBySearchTerm (results) {
+				// Don't alter the results being passed in, make a copy
+				var sorted = results.slice(0);
+				
+				// Array.sort is an in-place sort
+				sorted.sort(function (first, second) {
+					query.term = query.term || "";
+					
+					var firstPosition = first.text.toLowerCase().indexOf(
+						query.term.toLowerCase()
+					);
+					var secondPosition = second.text.toLowerCase().indexOf(
+						query.term.toLowerCase()
+					);
+				
+					return firstPosition - secondPosition;
+				});
+				
+				return sorted;
+			};
+			
+			$dissemSelector.select2({
 				placeholder: 'Select a dissemination',
+				sorter: sortBySearchTerm,
+				language: {
+					searching: function (params) {
+						// Intercept the query as it is happening
+						query = params;
+						// Change this to be appropriate for your application
+						return 'Loading…';
+					}
+				},
 				matcher: matchDissem
 			});
 		});

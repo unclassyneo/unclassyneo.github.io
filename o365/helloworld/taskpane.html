@@ -101,6 +101,11 @@
 				},
 				matcher: matchDissem
 			});
+			
+			function showAdvancedOptions(){
+				//show ui elements for advanced options
+				return 1;
+			}
 		});
 	</script>
 </head>
@@ -403,7 +408,7 @@
 	<br />
 	<br />
 	<input type="button" value="Advanced" style="float:left;" />
-	<input type="button" id="helloButton" value="classify" style="float:right;" />
+	<input type="button" id="helloButton" value="Classify" style="float:right;" />
 
 	<!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
 	<!-- <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" /> -->
@@ -411,7 +416,7 @@
 
 <script type="text/javascript">
 	Office.onReady((info) => {
-		if (info.host === Office.HostType.Outlook) {
+		if(info.host === Office.HostType.Outlook){
 			document.getElementById("helloButton").onclick = sayHello;
 		}
 	});
@@ -440,8 +445,8 @@
 		var emailBannerMarking = "CLASSIFICATION: " + bannerMarking;
 		var textColor = "red";
 		var classification = bannerMarking.split('//');
-		classification = classification[0];
-		if(classification === "UNCLASSIFIED"){
+		classification = classification[0].toUpperCase();
+		if(classification.indexOf("UNCLASSIFIED") > -1){
 			textColor = "green";
 		}
 		var emailBannerMarkingHTML = "<p class=\"banner-marking\" style=\"color:" + textColor + ";\">" + emailBannerMarking + "</p>";
@@ -486,6 +491,8 @@
 				var classification = "";
 				var bannerMarking = "";
 				var dissemRequired = 1;
+				
+				//get Classification
 				classifciationSelector = document.getElementById("classificationSelector");
 				//var value = classifciationSelector.value;
 				var classification = classifciationSelector.options[classifciationSelector.selectedIndex].text;
@@ -493,8 +500,8 @@
 					dissemRequired = 0;
 				}
 				bannerMarking = classification;
-				//var sciSelector = document.getElementById("sciSelector");
-				//var sci = sciSelector.options[sciSelector.selectedIndex].text;
+				
+				//get SCI
 				var selectedSCIs = $("#sciSelector").val();
 				if(selectedSCIs.length > 0){
 					bannerMarking += "/";
@@ -505,6 +512,17 @@
 				else {
 					bannerMarking += "";
 				}
+				
+				//get SAP
+				
+				
+				//get AEA
+				
+				
+				//get FGI
+				
+				
+				//get dissem
 				if(dissemRequired){
 					var dissemSelector = document.getElementById('dissemSelector');
 					var selectedDissems = $("#dissemSelector").val();
@@ -526,31 +544,18 @@
 					}
 				}
 				
-				markEmail(bannerMarking);
+				//get non-IC dissem
+				
+				
 				/*
-				var emailBannerMarking = "CLASSIFICATION: " + bannerMarking;
-				var textColor = "red";
-				if(classification === "UNCLASSIFIED"){
-					textColor = "green";
-				}
-				var emailBannerMarkingHTML = "<p class=\"banner-marking\" style=\"color:" + textColor + ";\">" + bannerMarking + "</p>";
-				var newMessageBody = emailBannerMarkingHTML + messageBody + emailBannerMarkingHTML;
-				if(messageBody.length > 0){
-					Office.context.mailbox.item.body.setAsync(
-						newMessageBody,
-						{
-							coercionType: "html", // Write text as HTML
-						},
-						
-						// Callback method to check that setAsync succeeded
-						function (asyncResult) {
-							if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-								write(asyncResult.error.message);
-							}
-						}
-					);
+				var portionMarkings = getPortionMarkings();
+				var minClassification = markingsRollUp(portionMarkings);
+				if(minClassification > bannerMarking){
+					alert("Error: classification must match or exceed " + minClassification);
 				}
 				*/
+				
+				markEmail(bannerMarking);
 			}
 			else{
 				console.log("Error fetching message body");

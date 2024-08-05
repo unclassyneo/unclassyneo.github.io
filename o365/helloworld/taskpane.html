@@ -73,13 +73,13 @@
 				
 				// Array.sort is an in-place sort
 				sorted.sort(function (first, second) {
-					query.term = query.term || "";
+					query.term = query.term.toLowerCase() || "";
 					
-					var firstPosition = first.text.toUpperCase().indexOf(
-						query.term.toUpperCase()
+					var firstPosition = first.text.toLowerCase().indexOf(
+						query.term
 					);
-					var secondPosition = second.text.toUpperCase().indexOf(
-						query.term.toUpperCase()
+					var secondPosition = second.text.toLowerCase().indexOf(
+						query.term
 					);
 				
 					return firstPosition - secondPosition;

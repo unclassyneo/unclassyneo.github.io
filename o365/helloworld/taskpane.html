@@ -102,6 +102,12 @@
 				matcher: matchDissem
 			});
 			
+			$dissemSelector.on('keyup', function(e){
+				if(e.keyCode === 188){ 
+					addToList($(this).val());
+				}
+			});
+			
 			function showAdvancedOptions(){
 				//show ui elements for advanced options
 				return 1;

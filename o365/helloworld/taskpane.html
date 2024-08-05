@@ -75,11 +75,11 @@
 				sorted.sort(function (first, second) {
 					query.term = query.term || "";
 					
-					var firstPosition = first.text.toLowerCase().indexOf(
-						query.term.toLowerCase()
+					var firstPosition = first.text.toUpperCase().indexOf(
+						query.term.toUpperCase()
 					);
-					var secondPosition = second.text.toLowerCase().indexOf(
-						query.term.toLowerCase()
+					var secondPosition = second.text.toUpperCase().indexOf(
+						query.term.toUpperCase()
 					);
 				
 					return firstPosition - secondPosition;
@@ -102,6 +102,7 @@
 				matcher: matchDissem
 			});
 			
+			//catch the comma keypress and add teh displayed dissem search result e.g. "USA," adds USA to list instead of having to press return/enter
 			$dissemSelector.on('keyup', function(e){
 				if(e.keyCode === 188){ 
 					addToList($(this).val());
